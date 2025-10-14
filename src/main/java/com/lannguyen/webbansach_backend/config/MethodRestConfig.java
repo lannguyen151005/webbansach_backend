@@ -1,0 +1,53 @@
+package com.lannguyen.webbansach_backend.config;
+
+import com.lannguyen.webbansach_backend.entity.Genre;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.metamodel.Type;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+
+@Configuration
+public class MethodRestConfig implements RepositoryRestConfigurer {
+
+    private final EntityManager entityManager;
+
+    @Autowired
+    public MethodRestConfig(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    @Override
+    public void configureRepositoryRestConfiguration(org.springframework.data.rest.core.config.RepositoryRestConfiguration config,
+                                                     CorsRegistry cors) {
+        //Tra id cua toan bo entiry khi goi engpoint -> tra ve dang json
+        config.exposeIdsFor(
+                entityManager.getMetamodel()
+                        .getEntities()
+                        .stream()
+                        .map(Type::getJavaType)
+                        .toArray(Class[]::new)
+        );
+        //Tra id cua 1 class khi goi endpoint -> tra ve dang json
+        // config.exposeIdsFor(Book.class);
+//        HttpMethod[] disableMethods = {
+//                HttpMethod.POST,
+//                HttpMethod.PUT,
+//                HttpMethod.PATCH,
+//                HttpMethod.DELETE
+//        };
+//        //Chan truy cap endpoint ../genres/... method: POST, PUT, ...
+//        disableHttpMethods(Genre.class, config, disableMethods);
+    }
+    private void disableHttpMethods(Class c,
+                                    RepositoryRestConfiguration config,
+                                    HttpMethod[] methods){
+        config.getExposureConfiguration()
+                .forDomainType(c)
+                .withItemExposure((metdata, httpMethods) -> httpMethods.disable(methods))
+                        .withCollectionExposure(((metdata, httpMethods) -> httpMethods.disable(methods)));
+    }
+}

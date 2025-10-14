@@ -1,5 +1,6 @@
 package com.lannguyen.webbansach_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -57,4 +58,5 @@ public class Book {
     private List<OrderDetail> orderDetailList;
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<WishList> wishList;
+
 }
