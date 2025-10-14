@@ -18,7 +18,7 @@ public class User {
     private String lastName;
     @Column(name = "ten", length = 256)
     private String firstName;
-    @Column(name = "ten_dang-nhap")
+    @Column(name = "ten_dang_nhap")
     private String username;
     @Column(name = "mat_khau")
     private String password;

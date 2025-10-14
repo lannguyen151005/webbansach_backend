@@ -10,7 +10,7 @@ public class OrderDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ma_chi_tiet_dan_hang")
+    @Column(name = "ma_chi_tiet_don_hang")
     private long id;
     @ManyToOne(
             cascade = {
