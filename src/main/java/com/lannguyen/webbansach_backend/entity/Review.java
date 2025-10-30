@@ -34,6 +34,6 @@ public class Review {
                     CascadeType.REFRESH
             }
     )
-    @JoinColumn(name = "ma_nguoi_dung", nullable = false)
+    @JoinColumn(name = "ma_nguoi_dung ", nullable = false)
     private User user;
 }

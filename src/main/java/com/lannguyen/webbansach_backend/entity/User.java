@@ -32,6 +32,10 @@ public class User {
     private String buyingAddress;
     @Column(name = "dia_chi_giao_hang")
     private String deliveryAddress;
+    @Column(name = "da_kich_hoat")
+    private boolean isActivate;
+    @Column(name = "ma_kich_hoat")
+    private String activateCode;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {
             CascadeType.DETACH,
             CascadeType.PERSIST,
@@ -46,7 +50,7 @@ public class User {
             CascadeType.REFRESH
     })
     private List<WishList> wishList;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {
             CascadeType.DETACH,
             CascadeType.PERSIST,
             CascadeType.MERGE,

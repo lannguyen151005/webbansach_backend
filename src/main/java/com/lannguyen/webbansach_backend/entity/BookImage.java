@@ -18,7 +18,7 @@ public class BookImage {
     private boolean isIcon;
     @Column(name = "duong_dan")
     private String link;
-    @Column(name = "du_lieu_anh")
+    @Column(name = "du_lieu_anh", columnDefinition = "LONGTEXT")
     @Lob
     private String data;
     @ManyToOne(
