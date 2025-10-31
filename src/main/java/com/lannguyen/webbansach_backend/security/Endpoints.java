@@ -8,7 +8,8 @@ public class Endpoints {
             "/images",
             "/images/**",
             "/users/search/existsByUsername",
-            "/users/search/existsByEmail"
+            "/users/search/existsByEmail",
+            "/account/activate/**"
     };
 
     public static final String[] PUBLIC_POST_ENGPOINTS = {

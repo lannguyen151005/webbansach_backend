@@ -4,6 +4,7 @@ import com.lannguyen.webbansach_backend.dao.UserRepository;
 import com.lannguyen.webbansach_backend.entity.Announce;
 import com.lannguyen.webbansach_backend.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,8 +55,36 @@ public class AccountService {
 
     private void sendActivateEmail(String email, String activateCode){
         String subject = "Activate your account in Alan.vn";
-        String text = "Please, use this code to activate your account <"+email+">:<html><body><br><h1>"+activateCode+"<h1/><body/><html/>";
+        String url = "http://localhost:3000/activate/"+email+"/"+activateCode;
+        String text = "Please, use this code to activate your account <"+email
+                +">:<html><body><br><h1>"+activateCode
+                +"<br>Click here to activate: "
+                + "<a href="+url+">"
+                + url
+                +"<a/><h1/><body/><html/>";
         emailService.sendMessage("thuspamcamnghich@gmail.com", email, subject, text);
     }
+
+    public ResponseEntity<?> activateAccount(String email, String activateCode){
+
+        User user = userRepository.findByEmail(email);
+
+        if(user==null){
+            return ResponseEntity.badRequest().body(new Announce("User doesn't exist"));
+        }
+
+        if(user.isActivate()){
+            return ResponseEntity.badRequest().body(new Announce("User is activated"));
+        }
+
+        if (activateCode.equals(user.getActivateCode())){
+            user.setActivate(true);
+            userRepository.save(user);
+            return ResponseEntity.ok("Activated successfully");
+        }else{
+            return ResponseEntity.badRequest().body(new Announce("Activate code doesn't match"));
+        }
+    }
+
 
 }

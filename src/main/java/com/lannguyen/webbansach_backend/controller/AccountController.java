@@ -22,4 +22,12 @@ public class AccountController {
 
         return response;
     }
+
+    @GetMapping("/activate")
+    public ResponseEntity<?> activateAccount(@RequestParam String email, @RequestParam String activateCode){
+
+        ResponseEntity<?> response = accountService.activateAccount(email, activateCode);
+
+        return response;
+    }
 }
