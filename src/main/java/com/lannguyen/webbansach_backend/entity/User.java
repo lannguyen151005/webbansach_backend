@@ -36,6 +36,10 @@ public class User {
     private boolean isActivate;
     @Column(name = "ma_kich_hoat")
     private String activateCode;
+    @Column(name = "avatar", columnDefinition = "LONGTEXT")
+    @Lob
+    private String avatar;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {
             CascadeType.DETACH,
             CascadeType.PERSIST,
